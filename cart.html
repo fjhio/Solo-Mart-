@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - Solo mart</title>
+<style>
+body{margin:0;font-family:Arial}
+nav{background:#000;color:#fff;padding:15px 40px;display:flex;justify-content:space-between}
+a{color:#fff;text-decoration:none}
+.container{padding:40px}
+.item{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:15px 0}
+input{width:50px}
+button{background:#000;color:#fff;border:none;padding:8px 15px;cursor:pointer}
+.total{font-size:20px;margin-top:20px}
+</style>
+</head>
+<body>
+
+<nav>
+<div>Solo mart</div>
+<div><a href="index.html">Shop</a></div>
+</nav>
+
+<div class="container" id="cartItems"></div>
+<div class="container">
+<div class="total">Total: ₹<span id="total">0</span></div>
+<a href="checkout.html"><button>Proceed to Checkout</button></a>
+</div>
+
+<script>
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let container=document.getElementById("cartItems");
+function render(){
+container.innerHTML="";
+let total=0;
+cart.forEach((item,i)=>{
+total+=item.price*item.qty;
+container.innerHTML+=`
+<div class="item">
+<div>${item.name} - ₹${item.price}</div>
+<div>
+<input type="number" value="${item.qty}" min="1" onchange="updateQty(${i},this.value)">
+<button onclick="removeItem(${i})">X</button>
+</div>
+</div>`
+});
+document.getElementById("total").innerText=total;
+localStorage.setItem("cart",JSON.stringify(cart))
+}
+function updateQty(i,val){cart[i].qty=Number(val);render()}
+function removeItem(i){cart.splice(i,1);render()}
+render()
+</script>
+
+</body>
+</html>
