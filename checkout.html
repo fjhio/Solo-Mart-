@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - Solo mart</title>
+<style>
+body{margin:0;font-family:Arial}
+nav{background:#000;color:#fff;padding:15px 40px}
+.container{padding:40px;max-width:600px;margin:auto}
+input{width:100%;padding:10px;margin:10px 0;border:1px solid #ccc}
+button{background:#000;color:#fff;border:none;padding:12px;width:100%;cursor:pointer}
+.summary{margin-bottom:20px}
+</style>
+</head>
+<body>
+
+<nav>Solo mart</nav>
+
+<div class="container">
+<div class="summary" id="summary"></div>
+<form onsubmit="order(event)">
+<input required placeholder="Full Name">
+<input required placeholder="Phone Number">
+<input required placeholder="Address">
+<button type="submit">Place Order via WhatsApp</button>
+</form>
+</div>
+
+<script>
+if(!localStorage.getItem("user")){location.href="login.html"}
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let total=0, text="Order Details:%0A";
+cart.forEach(i=>{
+total+=i.price*i.qty;
+text+=`${i.name} x${i.qty} = ₹${i.price*i.qty}%0A`
+});
+text+=`Total: ₹${total}`;
+document.getElementById("summary").innerHTML=text.replace(/%0A/g,"<br>");
+function order(e){
+e.preventDefault();
+window.open("https://wa.me/91XXXXXXXXXX?text="+text)
+localStorage.removeItem("cart")
+}
+</script>
+
+</body>
+</html>
