@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Solo mart</title>
+<style>
+body{display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial;background:#000;color:#fff}
+.box{background:#111;padding:40px;width:300px}
+input{width:100%;padding:10px;margin:10px 0;border:none}
+button{width:100%;padding:10px;background:#fff;color:#000;border:none;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>Login</h2>
+<form onsubmit="login(event)">
+<input required placeholder="Email">
+<input required type="password" placeholder="Password">
+<button type="submit">Login</button>
+</form>
+</div>
+
+<script>
+function login(e){
+e.preventDefault();
+localStorage.setItem("user","loggedIn");
+location.href="index.html"
+}
+</script>
+
+</body>
+</html>
