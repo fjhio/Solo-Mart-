@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo mart</title>
+<style>
+body{margin:0;font-family:Arial;background:#fff;color:#000}
+nav{position:sticky;top:0;background:#000;color:#fff;padding:15px 40px;display:flex;justify-content:space-between;align-items:center}
+nav a{color:#fff;text-decoration:none;margin-left:20px}
+.logo{font-size:22px;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;padding:40px}
+.card{border:1px solid #eee;padding:20px;text-align:center;transition:.3s}
+.card:hover{transform:translateY(-5px)}
+.card img{width:100%;height:300px;object-fit:cover}
+button{background:#000;color:#fff;border:none;padding:10px 20px;margin-top:10px;cursor:pointer}
+select{padding:5px;margin-top:10px}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="logo">Solo mart</div>
+<div>
+<a href="index.html">Shop</a>
+<a href="cart.html">Cart (<span id="count">0</span>)</a>
+<a href="login.html" id="auth">Login</a>
+</div>
+</nav>
+
+<div class="grid">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+<h3>Classic Black Tee</h3>
+<p>₹799</p>
+<select id="q1"><option>1</option><option>2</option><option>3</option></select>
+<button onclick="add('Classic Black Tee',799,document.getElementById('q1').value)">Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a">
+<h3>Minimal White Tee</h3>
+<p>₹899</p>
+<select id="q2"><option>1</option><option>2</option><option>3</option></select>
+<button onclick="add('Minimal White Tee',899,document.getElementById('q2').value)">Add to Cart</button>
+</div>
+</div>
+
+<script>
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+function updateCount(){document.getElementById("count").innerText=cart.reduce((a,b)=>a+Number(b.qty),0)}
+function add(name,price,qty){
+let item=cart.find(i=>i.name===name);
+if(item){item.qty=Number(item.qty)+Number(qty)}
+else{cart.push({name,price,qty:Number(qty)})}
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCount()
+}
+updateCount()
+let user=localStorage.getItem("user");
+if(user){document.getElementById("auth").innerText="Logout";document.getElementById("auth").onclick=()=>{localStorage.removeItem("user");location.reload()}}
+</script>
+
+</body>
+</html>
